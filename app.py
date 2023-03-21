@@ -1,18 +1,14 @@
 from transformers import AutoProcessor, AutoModelForCausalLM
 import requests
 from PIL import Image
-import io
-import pathlib
-import os
-print(os.getcwd())
 
 processor = AutoProcessor.from_pretrained("microsoft/git-base-coco")
 model = AutoModelForCausalLM.from_pretrained("microsoft/git-base-coco")
 
-#url = "http://images.cocodataset.org/val2017/000000039769.jpg"
-#image = Image.open(requests.get(url, stream=True).raw)
+url = "http://images.cocodataset.org/val2017/000000039769.jpg"
+image = Image.open(requests.get(url, stream=True).raw)
 
-image = Image.open(r'..\TestImages\ape.jpg')
+#image = Image.open(r'..\TestImages\ape.jpg')
 pixel_values = processor(images=image, return_tensors="pt").pixel_values
 
 generated_ids = model.generate(pixel_values=pixel_values, max_length=50)
