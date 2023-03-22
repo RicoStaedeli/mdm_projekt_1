@@ -36,4 +36,6 @@ def upload_image():
     # ...
 
     # Return a response (optional)
-    return generated_caption
+    return jsonify({
+        "generated_caption": generated_caption,
+    })

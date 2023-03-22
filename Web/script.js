@@ -24,20 +24,16 @@ function handleFiles() {
     fetch('/upload', {
         method: 'POST',
         headers: {
+            'Accept': 'application/json',
         },
         body: formData
-    }).then(response => {
-        console.log("Got a response")
-        console.log(response)
-        response.text()
-    }).then(data => {
-            // Display the text on the HTML page
-            const textDiv = document.getElementById("answer");
-            console.log(data)
-            textDiv.innerHTML = data;
-        })
-        .catch(error => {
-            console.error("Error fetching text:", error);
-        });
+    }).then(response => response.json())
+    .then(data => {
+        // Display the text on the HTML page
+        const textDiv = document.getElementById("answer");
+        console.log(data)
+        textDiv.innerHTML = data.generated_caption;})
+    
+ 
 }
 
