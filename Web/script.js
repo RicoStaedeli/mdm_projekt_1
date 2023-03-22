@@ -1,6 +1,8 @@
 // Get the input element that has the image
 const inputElement = document.getElementById("image-input");
 
+const imageElement = document.getElementById("uploaded_image");
+
 // Listen for the "change" event on the input element
 inputElement.addEventListener("change", handleFiles, false);
 
@@ -17,6 +19,8 @@ function handleFiles() {
 
     // Append the image file to the FormData object
     formData.append("image", fileList[0]);
+
+    imageElement.src = URL.createObjectURL(this.files[0])
 
     // Create a new XMLHttpRequest object
     const xhr = new XMLHttpRequest();
