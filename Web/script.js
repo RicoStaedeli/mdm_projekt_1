@@ -1,6 +1,5 @@
 // Get the input element that has the image
 const inputElement = document.getElementById("image-input");
-
 const imageElement = document.getElementById("uploaded_image");
 
 // Listen for the "change" event on the input element
@@ -22,9 +21,6 @@ function handleFiles() {
 
     imageElement.src = URL.createObjectURL(this.files[0])
 
-    // Create a new XMLHttpRequest object
-    const xhr = new XMLHttpRequest();
-
     fetch('/upload', {
         method: 'POST',
         headers: {
@@ -37,6 +33,5 @@ function handleFiles() {
         const textDiv = document.getElementById("answer");
         console.log(data)
         textDiv.innerHTML = data.generated_caption;})   
- 
 }
 
