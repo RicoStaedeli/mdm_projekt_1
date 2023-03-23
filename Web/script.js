@@ -36,8 +36,7 @@ function handleFiles() {
         // Display the text on the HTML page
         const textDiv = document.getElementById("answer");
         console.log(data)
-        textDiv.innerHTML = data.generated_caption;})
-    
+        textDiv.innerHTML = data.generated_caption;})   
  
 }
 
