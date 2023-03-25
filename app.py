@@ -3,6 +3,11 @@ from flask.helpers import send_file
 
 import subprocess
 import sys
+subprocess.check_call([sys.executable, "-m", "pip", "install", "transformers"])
+subprocess.check_call([sys.executable, "-m", "pip", "install", "Pillow"])
+
+from PIL import Image
+from transformers import AutoProcessor, AutoModelForCausalLM
 
 app = Flask(__name__, static_url_path='/', static_folder='web')
 
@@ -13,11 +18,7 @@ def indexPage():
 
 @app.route('/upload', methods=['POST'])
 def upload_image():
-    subprocess.check_call([sys.executable, "-m", "pip", "install", "transformers"])
-    subprocess.check_call([sys.executable, "-m", "pip", "install", "Pillow"])
-    
-    from PIL import Image
-    from transformers import AutoProcessor, AutoModelForCausalLM
+
 
     processor = AutoProcessor.from_pretrained("microsoft/git-base-coco")
     model = AutoModelForCausalLM.from_pretrained("microsoft/git-base-coco")
