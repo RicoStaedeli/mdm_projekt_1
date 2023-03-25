@@ -1,7 +1,6 @@
 from flask import Flask, request, jsonify
 from flask.helpers import send_file
 
-from PIL import Image
 import subprocess
 import sys
 
@@ -15,7 +14,11 @@ def indexPage():
 @app.route('/upload', methods=['POST'])
 def upload_image():
     subprocess.check_call([sys.executable, "-m", "pip", "install", "transformers"])
+    subprocess.check_call([sys.executable, "-m", "pip", "install", "Pillow"])
+    
+    from PIL import Image
     from transformers import AutoProcessor, AutoModelForCausalLM
+
     processor = AutoProcessor.from_pretrained("microsoft/git-base-coco")
     model = AutoModelForCausalLM.from_pretrained("microsoft/git-base-coco")
 
