@@ -2,16 +2,19 @@ from flask import Flask, request, jsonify
 from flask.helpers import send_file
 from transformers import AutoProcessor, AutoModelForCausalLM
 from PIL import Image
+import subprocess
+import sys
 
 app = Flask(__name__, static_url_path='/', static_folder='web')
 
-
+    
 @app.route("/")
 def indexPage():
     return send_file("web/index.html")
 
 @app.route('/upload', methods=['POST'])
 def upload_image():
+    subprocess.check_call([sys.executable, "-m", "pip", "install", "transformers"])
     processor = AutoProcessor.from_pretrained("microsoft/git-base-coco")
     model = AutoModelForCausalLM.from_pretrained("microsoft/git-base-coco")
 
