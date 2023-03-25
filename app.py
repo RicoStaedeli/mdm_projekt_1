@@ -3,6 +3,7 @@ from flask.helpers import send_file
 
 import subprocess
 import sys
+subprocess.check_call([sys.executable, "-m", "pip", "install", "torch"])
 subprocess.check_call([sys.executable, "-m", "pip", "install", "transformers"])
 subprocess.check_call([sys.executable, "-m", "pip", "install", "Pillow"])
 
