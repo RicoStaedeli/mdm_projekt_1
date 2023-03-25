@@ -16,20 +16,24 @@ def indexPage():
 
 @app.route('/upload', methods=['POST'])
 def upload_image():
-    from PIL import Image
-    from transformers import AutoProcessor, AutoModelForCausalLM
+    
 
-    processor = AutoProcessor.from_pretrained("microsoft/git-base-coco")
-    model = AutoModelForCausalLM.from_pretrained("microsoft/git-base-coco")
-
-      # Get the uploaded image from the request
+    # Get the uploaded image from the request
     image_file = request.files['image']
     
-    image = Image.open(image_file)
-    pixel_values = processor(images=image, return_tensors="pt").pixel_values
+    
 
-    generated_ids = model.generate(pixel_values=pixel_values, max_length=50)
-    generated_caption = processor.batch_decode(generated_ids, skip_special_tokens=True)[0]
+
+    # from PIL import Image
+    # from transformers import AutoProcessor, AutoModelForCausalLM
+    # image = Image.open(image_file)
+    # processor = AutoProcessor.from_pretrained("microsoft/git-base-coco")
+    # model = AutoModelForCausalLM.from_pretrained("microsoft/git-base-coco") 
+    # pixel_values = processor(images=image, return_tensors="pt").pixel_values
+    # generated_ids = model.generate(pixel_values=pixel_values, max_length=50)
+    # generated_caption = processor.batch_decode(generated_ids, skip_special_tokens=True)[0]
+
+    generated_caption ="This is fkn nonsense"
     print(generated_caption)
        
     # Save the image to disk (optional)
