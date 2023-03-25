@@ -1,3 +1,4 @@
+pip install transformers
 from flask import Flask, request, jsonify
 from flask.helpers import send_file
 from transformers import AutoProcessor, AutoModelForCausalLM
