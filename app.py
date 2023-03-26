@@ -1,12 +1,10 @@
 from flask import Flask, request, jsonify
 from flask.helpers import send_file
-from PIL import Image
-from transformers import AutoProcessor, AutoModelForCausalLM
-#import subprocess
-#import sys
-#subprocess.check_call([sys.executable, "-m", "pip", "install", "torch"])
-#subprocess.check_call([sys.executable, "-m", "pip", "install", "transformers"])
-#subprocess.check_call([sys.executable, "-m", "pip", "install", "Pillow"])
+# from PIL import Image
+# from transformers import AutoProcessor, AutoModelForCausalLM
+
+from transformers import AutoImageProcessor, AutoModelForImageClassification
+from PIL import Image 
 
 app = Flask(__name__, static_url_path='/', static_folder='web')
 
@@ -23,12 +21,22 @@ def upload_image():
 
 
     image = Image.open(image_file)
-    processor = AutoProcessor.from_pretrained("microsoft/git-base")
-    model = AutoModelForCausalLM.from_pretrained("microsoft/git-base") 
-    pixel_values = processor(images=image, return_tensors="pt").pixel_values
-    generated_ids = model.generate(pixel_values=pixel_values, max_length=50)
-    generated_caption = processor.batch_decode(generated_ids, skip_special_tokens=True)[0]
+    # processor = AutoProcessor.from_pretrained("microsoft/git-base")
+    # model = AutoModelForCausalLM.from_pretrained("microsoft/git-base") 
+    # pixel_values = processor(images=image, return_tensors="pt").pixel_values
+    # generated_ids = model.generate(pixel_values=pixel_values, max_length=50)
+    # generated_caption = processor.batch_decode(generated_ids, skip_special_tokens=True)[0]
 
+
+    processor = AutoImageProcessor.from_pretrained("microsoft/swinv2-tiny-patch4-window8-256")
+    model = AutoModelForImageClassification.from_pretrained("microsoft/swinv2-tiny-patch4-window8-256")
+
+    inputs = processor(images=image, return_tensors="pt")
+    outputs = model(**inputs)
+    logits = outputs.logits
+    # model predicts one of the 1000 ImageNet classes
+    predicted_class_idx = logits.argmax(-1).item()
+    generated_caption = model.config.id2label[predicted_class_idx]
     #generated_caption ="This is fkn nonsense"
     print(generated_caption)
        
