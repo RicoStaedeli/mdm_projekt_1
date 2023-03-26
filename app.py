@@ -2,9 +2,8 @@ from flask import Flask, request, jsonify
 from flask.helpers import send_file
 # from PIL import Image
 # from transformers import AutoProcessor, AutoModelForCausalLM
-
-from transformers import AutoImageProcessor, AutoModelForImageClassification
-from PIL import Image 
+from transformers import BeitFeatureExtractor, BeitForImageClassification
+from PIL import Image
 
 app = Flask(__name__, static_url_path='/', static_folder='web')
 
@@ -27,16 +26,17 @@ def upload_image():
     # generated_ids = model.generate(pixel_values=pixel_values, max_length=50)
     # generated_caption = processor.batch_decode(generated_ids, skip_special_tokens=True)[0]
 
-
-    processor = AutoImageProcessor.from_pretrained("microsoft/swinv2-tiny-patch4-window8-256")
-    model = AutoModelForImageClassification.from_pretrained("microsoft/swinv2-tiny-patch4-window8-256")
-
-    inputs = processor(images=image, return_tensors="pt")
+    feature_extractor = BeitFeatureExtractor.from_pretrained('microsoft/beit-base-patch16-384')
+    model = BeitForImageClassification.from_pretrained('microsoft/beit-base-patch16-384')
+    inputs = feature_extractor(images=image, return_tensors="pt")
     outputs = model(**inputs)
     logits = outputs.logits
     # model predicts one of the 1000 ImageNet classes
     predicted_class_idx = logits.argmax(-1).item()
     generated_caption = model.config.id2label[predicted_class_idx]
+
+    # model predicts one of the 1000 ImageNet classes
+
     #generated_caption ="This is fkn nonsense"
     print(generated_caption)
        
