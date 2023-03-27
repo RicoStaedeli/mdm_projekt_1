@@ -16,7 +16,7 @@ def upload_image():
     # Get the uploaded image from the request
     image_file = request.files['image']
 
-    image = Image.open(image_file)
+    # image = Image.open(image_file)
     # processor = AutoProcessor.from_pretrained("microsoft/git-base")
     # model = AutoModelForCausalLM.from_pretrained("microsoft/git-base") 
     # pixel_values = processor(images=image, return_tensors="pt").pixel_values
